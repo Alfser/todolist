@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".addtask.AddTaskFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="32dp"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_end="32dp" />
+
+    <TextView
+        android:id="@+id/tv_title_add_task"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/new_task_title_label"
+        android:layout_marginTop="@dimen/default_margin"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:fontFamily="sans-serif-condensed"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/title_label"
+        android:layout_marginTop="@dimen/big_margin"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_add_task"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/description_label"
+        android:layout_marginTop="@dimen/default_margin"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintTop_toBottomOf="@id/text_input_layout_title"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:inputType="textMultiLine"
+            android:nestedScrollingEnabled="true"
+            android:scrollbarAlwaysDrawVerticalTrack="true"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/date_label"
+        android:layout_marginTop="@dimen/big_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/ic_date_24"
+        app:layout_constraintTop_toBottomOf="@id/text_input_layout_description"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toStartOf="@id/text_input_layout_time">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_layout_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/time_label"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/ic_time_24"
+        app:layout_constraintTop_toTopOf="@id/text_input_layout_date"
+        app:layout_constraintBottom_toBottomOf="@id/text_input_layout_date"
+        app:layout_constraintStart_toEndOf="@id/text_input_layout_date"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_add_new_task"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/button_add_task"
+        android:layout_marginTop="@dimen/big_margin"
+        app:layout_constraintTop_toBottomOf="@id/text_input_layout_time"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

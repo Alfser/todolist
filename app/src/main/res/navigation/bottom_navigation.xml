@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation"
+    app:startDestination="@id/home_dest">
+
+    <fragment
+        android:id="@+id/archive_dest"
+        android:name="com.example.todolist.archivetask.ArchiveFragment"
+        android:label="ArchiveFragment"
+        tools:layout="@layout/archive_fragment"/>
+
+    <fragment
+        android:id="@+id/favorite_dest"
+        android:name="com.example.todolist.favoritetask.FavoriteFragment"
+        android:label="FavoriteFragment"
+        tools:layout="@layout/favorite_fragment"/>
+
+    <fragment
+        android:id="@+id/statistics_dest"
+        android:name="com.example.todolist.statisticstask.StatisticsFragment"
+        android:label="StatisticsFragment"
+        tools:layout="@layout/statistics_fragment"/>
+
+    <fragment
+        android:id="@+id/home_dest"
+        android:name="com.example.todolist.addtask.AddTaskFragment"
+        android:label="add_task_fragment"
+        tools:layout="@layout/add_task_fragment" />
+
+</navigation>

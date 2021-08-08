@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/filter_item"
+        android:title="@string/title_filter_item"
+        android:icon="@drawable/ic_filter_24"
+        app:showAsAction="always">
+
+        <menu>
+            <item
+                android:id="@+id/all_tasks_item"
+                android:title="@string/title_all_tasks"
+                app:showAsAction="never"/>
+            <item
+                android:id="@+id/tasks_done_item"
+                android:title="@string/title_tasks_done"
+                app:showAsAction="never"/>
+            <item
+                android:id="@+id/tasks_opened_item"
+                android:title="@string/title_tasks_opened"
+                app:showAsAction="never"/>
+
+        </menu>
+
+    </item>
+</menu>

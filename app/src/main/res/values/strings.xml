@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">to do list</string>
+    <string name="task_title">Tarefas</string>
+    <string name="ctt_desc_add_task">Adicionar Tarefa</string>
+    <string name="title_toolbar">To Do</string>
+
+    <!-- Bottom menu main fragment-->
+    <string name="archive_task">Arquivados</string>
+    <string name="archive_desc">Tarefa arquivadas para serem ativas em um outro momento</string>
+    <string name="home_task">Inicio</string>
+    <string name="home_desc">Lista com todas as tarefas criadas</string>
+    <string name="favorite_task">Favoritos</string>
+    <string name="favorite_desc">Lista com todas as tarefas favoritas</string>
+    <string name="statistics_task">Estatisticas</string>
+    <string name="statistic_desc">Porcentagem das tarefas concuídas e não finalizadas</string>
+
+    <!-- Overflow menu main fragment-->
+    <string name="title_filter_item">Filtrar tarefas</string>
+    <string name="title_all_tasks">Todas tarefas</string>
+    <string name="title_tasks_done">Tarefas concluídas</string>
+    <string name="title_tasks_opened">Tarefas Abertas</string>
+
+    <!-- add_task_fragment layout -->
+    <string name="title_label">Titulo</string>
+    <string name="description_label">Descrição</string>
+    <string name="date_label">Data</string>
+    <string name="time_label">Hora</string>
+    <string name="new_task_title_label">Adicionar Nova Tarefa</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="button_add_task">Criar tarefa</string>
+    <string name="task_completed">Tarefa marcada como realizada</string>
+    <string name="task_active">Tarefa marcada como ativa</string>
+
+</resources>
