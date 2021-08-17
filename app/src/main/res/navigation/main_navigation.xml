@@ -11,19 +11,33 @@
         android:label="main_task_fragment"
         tools:layout="@layout/main_task_fragment" >
         <action
-            android:id="@+id/action_add_task"
+            android:id="@+id/action_home_to_add_task"
             app:destination="@id/add_task_dest" />
+        <action
+            android:id="@+id/action_task_details_dest"
+            app:destination="@id/taskDetailsFragment" />
+        <argument
+            android:name="messageCode"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 
     <fragment
         android:id="@+id/add_task_dest"
-        android:name="com.example.todolist.addtask.AddTaskFragment"
+        android:name="com.example.todolist.addedittask.AddEditTaskFragment"
         android:label="add_task_fragment"
         tools:layout="@layout/add_task_fragment" >
         <action
             android:id="@+id/action_pop_back_home"
             app:destination="@id/home_dest"
             app:popUpTo="@id/home_dest" />
+        <argument
+            android:name="taskId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
 
     <fragment
@@ -43,5 +57,19 @@
         android:name="com.example.todolist.statisticstask.StatisticsFragment"
         android:label="StatisticsFragment"
         tools:layout="@layout/statistics_fragment"/>
+    <fragment
+        android:id="@+id/taskDetailsFragment"
+        android:name="com.example.todolist.taskdetails.TaskDetailsFragment"
+        android:label="task_details_fragment"
+        tools:layout="@layout/task_details_fragment" >
+        <action
+            android:id="@+id/action_details_to_add_task_dest"
+            app:destination="@id/add_task_dest" />
+        <argument android:name="taskId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_details_to_home_dest"
+            app:destination="@id/home_dest" />
+    </fragment>
 
 </navigation>

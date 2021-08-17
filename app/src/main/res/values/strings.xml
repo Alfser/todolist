@@ -31,5 +31,16 @@
     <string name="button_add_task">Criar tarefa</string>
     <string name="task_completed">Tarefa marcada como realizada</string>
     <string name="task_active">Tarefa marcada como ativa</string>
+    <string name="desc_fab_edit">Botão para navegar para tela de editar a tarefa</string>
+    <string name="delete_task">excluir tarefa</string>
+    <string name="add_favorite">adicionar aos favoritos</string>
+    <string name="add_archive">arquivar tarefa</string>
+    <string name="task_details">Tarefa</string>
+    <string name="new_task">Nova Tarefa</string>
+    <string name="edit_task">Editar Tarefa</string>
+    <string name="task_updated">Tareda atualizada</string>
+    <string name="task_created">Tafefa criada</string>
+    <string name="task_deleted">Tarefa excluída</string>
+    <string name="task_content_not_void">Tarefa não pode ter campos vazios.</string>
 
 </resources>

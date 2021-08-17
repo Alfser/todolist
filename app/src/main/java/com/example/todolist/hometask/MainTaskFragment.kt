@@ -3,14 +3,14 @@ package com.example.todolist.hometask
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.R
 import com.example.todolist.databinding.MainTaskFragmentBinding
-import com.example.todolist.datasource.TaskDataSource
+import com.example.todolist.utilities.EventObserver
 import com.example.todolist.utilities.setupSnackBar
 import com.google.android.material.snackbar.Snackbar
 
@@ -25,6 +25,8 @@ class MainTaskFragment : Fragment() {
     private val binding get() = _binding
 
     private val viewModel by viewModels<TasksViewModel>()
+
+    private val args by navArgs<MainTaskFragmentArgs>()
 
     private val adapter by lazy { TaskAdapter(viewModel) }
 
@@ -47,22 +49,48 @@ class MainTaskFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //setup FAB
-        binding?.fabAddTask?.setOnClickListener { addTask() }
-
         setupListAdapter()
 
         setupSnackBar()
+
+        setupEventNavigation()
+
+        binding?.fabAddTask?.setOnClickListener { viewModel.addNewTask() }
     }
 
-    private fun addTask(){
-        findNavController().navigate(R.id.action_add_task)
+    private fun setupEventNavigation(){
+        viewModel.openTaskEvent.observe(viewLifecycleOwner, EventObserver{
+            navigateToTaskDetails(it)
+        })
+
+        viewModel.addNewTaskEvent.observe(viewLifecycleOwner, EventObserver{
+            navigateToAddNewTask()
+        })
+    }
+
+    private fun navigateToAddNewTask(){
+        val action = MainTaskFragmentDirections
+            .actionHomeToAddTask(
+            null,
+            resources.getString(R.string.new_task)
+        )
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToTaskDetails(taskId: String){
+        val action = MainTaskFragmentDirections
+            .actionTaskDetailsDest(
+                taskId
+            )
+
+        findNavController().navigate(action)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main_task_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -108,9 +136,11 @@ class MainTaskFragment : Fragment() {
     }
 
     private fun setupSnackBar(){
+        //show snackBar message
         view?.setupSnackBar(this, viewModel.snackBarText, Snackbar.LENGTH_SHORT)
-        //TODO: add message when event saved, updated and excluded has happened
 
+        //set result message returned from edit screen
+        viewModel.showEditResultMessage(args.messageCode)
     }
 
     companion object {

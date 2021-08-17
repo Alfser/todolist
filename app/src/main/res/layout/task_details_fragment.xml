@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".taskdetails.TaskDetailsFragment">
+    
+    <data>
+        <import type="android.view.View" />
+
+        <import type="android.widget.CompoundButton" />
+
+        <variable
+            name="viewModel"
+            type="com.example.todolist.taskdetails.TaskDetailsViewModel" />
+
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/title_details"
+        app:layout_constraintBottom_toBottomOf="@id/title_details"
+        android:checked="@{viewModel.completed}"
+        android:onClick="@{(view) -> viewModel.setCompleted(((CompoundButton)view).isChecked())}"
+        android:text=""/>
+
+    <TextView
+        android:id="@+id/title_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_title"
+        tools:text="@tools:sample/lorem"
+        android:text="@{viewModel.task.title}"
+        android:textColor="@color/black"
+        android:layout_margin="@dimen/med_margin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/description_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_title"
+        tools:text="@tools:sample/full_names"
+        android:text="@{viewModel.task.description}"
+        android:layout_margin="@dimen/med_margin"
+        app:layout_constraintTop_toBottomOf="@id/title_details"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/date_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_title"
+        tools:text="@tools:sample/date/ddmmyy"
+        android:text="@{viewModel.task.date}"
+        android:textAlignment="center"
+        android:layout_margin="@dimen/med_margin"
+        app:layout_constraintTop_toBottomOf="@id/description_details"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/time_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_title"
+        tools:text="@tools:sample/date/hhmm"
+        android:text="@{viewModel.task.time}"
+        android:textAlignment="center"
+        android:layout_margin="@dimen/med_margin"
+        app:layout_constraintStart_toEndOf="@id/date_details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/date_details"
+        app:layout_constraintTop_toTopOf="@id/date_details"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_edit_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        app:fabSize="normal"
+        android:src="@drawable/ic_edit_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/desc_fab_edit" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+    
+</layout>

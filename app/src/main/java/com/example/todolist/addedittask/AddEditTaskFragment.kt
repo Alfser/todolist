@@ -1,31 +1,37 @@
-package com.example.todolist.addtask
+package com.example.todolist.addedittask
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.todolist.R
+import androidx.navigation.fragment.navArgs
+import com.example.todolist.ADD_EDIT_RESULT_OK
+import com.example.todolist.EDIT_RESULT_OK
 import com.example.todolist.databinding.AddTaskFragmentBinding
-import com.example.todolist.datasource.TaskDataSource
-import com.example.todolist.datasource.model.Task
+import com.example.todolist.utilities.EventObserver
 import com.example.todolist.utilities.dateDialog
-import com.example.todolist.utilities.text
+import com.example.todolist.utilities.setupSnackBar
 import com.example.todolist.utilities.timeDialog
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * A simple [Fragment] subclass.
- * Use the [AddTaskFragment.newInstance] factory method to
+ * Use the [AddEditTaskFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AddTaskFragment : Fragment() {
+class AddEditTaskFragment : Fragment() {
 
 
     private var _binding: AddTaskFragmentBinding? = null
     private val binding:AddTaskFragmentBinding?
        get() = _binding
+
+    private val viewModel: AddEditTaskViewModel by viewModels()
+
+    private val args: AddEditTaskFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,22 +40,33 @@ class AddTaskFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = AddTaskFragmentBinding.inflate(layoutInflater, container, false)
 
+        _binding?.let {
+            it.viewModel = viewModel
+            it.lifecycleOwner = this.viewLifecycleOwner
+        }
+
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //hidden bottom navigator
-        setBottomNavVisible(false)
+        viewModel.start(args.taskId)
 
         addListeners()
+
+        setupSnackBar()
+
+        setupNavigation()
+    }
+
+    private fun setupSnackBar() {
+        view?.setupSnackBar(viewLifecycleOwner, viewModel.snackBarText, Snackbar.LENGTH_SHORT)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        setBottomNavVisible(true)
     }
 
     private fun addListeners(){
@@ -66,32 +83,25 @@ class AddTaskFragment : Fragment() {
                 timeDialog(textInputLayoutTime)
                     .show(childFragmentManager, "TIME_PICKER_TAG")
             }
-
-                buttonAddNewTask.setOnClickListener { saveNewTask() }
         }
     }
 
-    private fun saveNewTask(){
-        binding?.apply {
-            val task = Task(
-                title = textInputLayoutTitle.text,
-                description = textInputLayoutDescription.text,
-                date = textInputLayoutDate.text,
-                timer = textInputLayoutTime.text
-            )
-
-            TaskDataSource.insertNewTask(task)
-            findNavController().navigate(R.id.action_pop_back_home)
-        }
+    private fun setupNavigation(){
+        viewModel.addEditTaskEvent.observe(viewLifecycleOwner, EventObserver{
+            navigateToHome()
+        })
     }
 
-    private fun setBottomNavVisible(isVisible: Boolean){
-        val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+    private fun navigateToHome(){
 
-        val visibility = if(isVisible) View.VISIBLE else View.GONE
+        val messageCode = if(args.taskId == null) ADD_EDIT_RESULT_OK else EDIT_RESULT_OK
 
-        bottomNavigationView?.visibility = visibility
+        val action = AddEditTaskFragmentDirections
+            .actionPopBackHome(messageCode)
+
+        findNavController().navigate(action)
     }
+
 
     companion object {
         /**
@@ -100,6 +110,6 @@ class AddTaskFragment : Fragment() {
          *
          * @return A new instance of fragment AddTaskFragment.
          */
-        fun newInstance() = AddTaskFragment()
+        fun newInstance() = AddEditTaskFragment()
     }
 }

@@ -1,50 +1,35 @@
 package com.example.todolist.datasource
 
-import android.os.Build
-import android.os.Debug
-import android.util.Log
-import androidx.annotation.RequiresApi
+import androidx.lifecycle.LiveData
 import com.example.todolist.datasource.model.Task
 
-object TaskDataSource {
+interface TaskDataSource {
 
-    private val taskList = arrayListOf<Task>(
-        Task(title = "Reunião do projeto vegas",
-            description = "falar sobre os vanços no projeto e as mudanças",
-            date = "06/05/2021",
-            timer = "19:00"
-        ),
-        Task(title = "Manutenção App Ford",
-            description = "Realizar a manutenção no App forde",
-            date = "03/04/2021",
-            timer = "18:00"
-        ),
-        Task(title = "Documentação da API arco",
-            description = "Realizar a manutenção da Api do prjeto Arco",
-            date = "02/06/2021",
-            timer = "15:00"
-        )
-    )
+    fun observeTasks(): LiveData<Result<List<Task>>>
 
-    fun getTaskList() = taskList
+    suspend fun getTasks(): Result<List<Task>>
 
-    fun insertNewTask(task: Task){
-        taskList.add(task)
-        Log.i("TaskDataSource", task.toString())
-    }
+    suspend fun refreshTasks()
 
-    fun getTask(id: String) = taskList.find { task -> task.id == id }
+    fun observeTask(taskId: String):LiveData<Result<Task>>
 
-    fun removeTask(task: Task) = taskList.remove(task)
+    suspend fun getTask(taskId: String):Result<Task>
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun removeTask(id: String) = taskList.removeIf{ task -> task.id == id }
+    suspend fun refreshTask(taskId: String)
 
-    fun completeTask(task: Task){
+    suspend fun saveTask(task: Task)
 
-    }
+    suspend fun completeTask(task: Task)
 
-    fun activeTask(task: Task){
+    suspend fun completeTask(taskId: String)
 
-    }
+    suspend fun activeTask(task: Task)
+
+    suspend fun activeTask(taskId: String)
+
+    suspend fun deleteAllTasks()
+
+    suspend fun deleteTask(taskId: String)
+
+    suspend fun deleteTasksCompleted()
 }

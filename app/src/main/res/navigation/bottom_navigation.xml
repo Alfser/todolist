@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/home_dest"
-        android:name="com.example.todolist.addtask.AddTaskFragment"
+        android:name="com.example.todolist.addedittask.AddEditTaskFragment"
         android:label="add_task_fragment"
         tools:layout="@layout/add_task_fragment" />
 
