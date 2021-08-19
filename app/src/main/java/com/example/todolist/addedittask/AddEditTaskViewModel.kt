@@ -1,26 +1,31 @@
 package com.example.todolist.addedittask
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.*
 import com.example.todolist.R
-import com.example.todolist.datasource.TaskDataSource
+import com.example.todolist.datasource.Result
+import com.example.todolist.datasource.TasksRepository
 import com.example.todolist.datasource.model.Task
 import com.example.todolist.utilities.Event
+import kotlinx.coroutines.launch
 
-class AddEditTaskViewModel: ViewModel() {
+class AddEditTaskViewModel(app:Application): AndroidViewModel(app) {
 
+    private  val tasksRepository = TasksRepository.getRepository(app)
+
+    //two-way live data, get and set values in databinding
     val title = MutableLiveData<String>()
     val description = MutableLiveData<String>()
     val date = MutableLiveData<String>()
     val time = MutableLiveData<String>()
+
     private var completed = false
     private var favorited = false
     private var archived = false
     private var taskId: String = ""
 
-    private val _loading = MutableLiveData(false)
-    val loading: LiveData<Boolean> get() = _loading
+    private val _dataLoading = MutableLiveData(false)
+    val dataLoading: LiveData<Boolean> get() = _dataLoading
 
     private val _addEditTaskEvent = MutableLiveData<Event<Unit>>()
     val addEditTaskEvent: LiveData<Event<Unit>> get() = _addEditTaskEvent
@@ -33,7 +38,7 @@ class AddEditTaskViewModel: ViewModel() {
     private var isDataLoaded = false
 
     fun start(taskId: String?){
-        val isLoading = _loading.value ?: false
+        val isLoading = _dataLoading.value ?: false
 
         if (isLoading || isDataLoaded)
             return
@@ -46,10 +51,17 @@ class AddEditTaskViewModel: ViewModel() {
         this.taskId = taskId
 
         isNewTask = false
-        _loading.value = true
+        _dataLoading.value = true
 
-        TaskDataSource.getTask(taskId)?.let {
-            onTaskLoaded(it)
+        viewModelScope.launch {
+            tasksRepository.getTask(taskId, false).let {
+                if (it is Result.Success){
+                    onTaskLoaded(it.data)
+                }else{
+                    onDataNotAvailable()
+                }
+            }
+
         }
 
     }
@@ -63,7 +75,7 @@ class AddEditTaskViewModel: ViewModel() {
         favorited = task.favorite
         archived = task.archived
 
-        _loading.value = false
+        _dataLoading.value = false
         isDataLoaded = true
     }
 
@@ -94,7 +106,7 @@ class AddEditTaskViewModel: ViewModel() {
             return
         }
 
-        _loading.value = true
+        _dataLoading.value = true
         if(isNewTask){
             val newTask = Task(
                 title = title,
@@ -124,19 +136,21 @@ class AddEditTaskViewModel: ViewModel() {
         }
     }
 
-    private fun addNewTask(task: Task){
-        TaskDataSource.insertNewTask(task)
+    private fun addNewTask(task: Task) = viewModelScope.launch {
+        tasksRepository.saveTask(task)
+        _dataLoading.value = false
         _addEditTaskEvent.value = Event(Unit)
-        _loading.value = false
     }
 
     private fun updateTask(task: Task){
-        TaskDataSource.updateTask(task)
-        _addEditTaskEvent.value = Event(Unit)
-        _loading.value = false
+        viewModelScope.launch {
+            tasksRepository.saveTask(task)
+            _dataLoading.value = false
+            _addEditTaskEvent.value = Event(Unit)
+        }
     }
 
     private fun onDataNotAvailable(){
-        _loading.value = false
+        _dataLoading.value = false
     }
 }

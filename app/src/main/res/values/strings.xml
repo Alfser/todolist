@@ -42,5 +42,7 @@
     <string name="task_created">Tafefa criada</string>
     <string name="task_deleted">Tarefa excluída</string>
     <string name="task_content_not_void">Tarefa não pode ter campos vazios.</string>
+    <string name="error_obtain_tasks">Ocorreu um error na obtenção das tarefas.</string>
+    <string name="error_loading_task">Não foi possível obter a tarefa</string>
 
 </resources>

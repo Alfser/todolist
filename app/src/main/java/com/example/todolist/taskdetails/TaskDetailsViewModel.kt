@@ -1,27 +1,32 @@
 package com.example.todolist.taskdetails
 
+import android.app.Application
 import androidx.annotation.StringRes
 import androidx.lifecycle.*
 import com.example.todolist.R
 import com.example.todolist.datasource.TaskDataSource
+import com.example.todolist.datasource.TasksRepository
 import com.example.todolist.datasource.model.Task
 import com.example.todolist.utilities.Event
+import com.example.todolist.datasource.Result
+import kotlinx.coroutines.launch
 
-class TaskDetailsViewModel : ViewModel() {
+class TaskDetailsViewModel(app: Application) : AndroidViewModel(app) {
 
+    private val tasksRepository = TasksRepository.getRepository(app)
     private val _taskId = MutableLiveData<String>()
 
-    private val _task = _taskId.switchMap {
-        val task = TaskDataSource.getTask(it as String)
-        MutableLiveData<Task?>(task)
+    private val _task = _taskId.switchMap { taskId ->
+        tasksRepository.observeTask(taskId).map { computeResult(it) }
     }
-    val task get() = _task
+    val task: LiveData<Task?> get() = _task
+
+    val isDataAvailable: LiveData<Boolean> = _task.map { it != null }
 
     //When is loading the task
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading get() = _dataLoading
 
-    val isDataAvailable = task.map { it != null }
     //verify this task is completed
     val completed : LiveData<Boolean> = _task.map { task -> task?.completed ?: false }
 
@@ -35,14 +40,14 @@ class TaskDetailsViewModel : ViewModel() {
     private val _editTaskEvent = MutableLiveData<Event<Unit>>()
     val editTaskEvent get() = _editTaskEvent
 
-    fun setCompleted(completed: Boolean){
+    fun setCompleted(completed: Boolean) = viewModelScope.launch {
         _task.value?.let {
             if(completed){
+                tasksRepository.completeTask(it)
                 showSnackBarMessage( R.string.task_completed)
-                TaskDataSource.completeTask(it)
             }else{
+                tasksRepository.activeTask(it)
                 showSnackBarMessage(R.string.task_active)
-                TaskDataSource.activeTask(it)
             }
         }
     }
@@ -58,22 +63,35 @@ class TaskDetailsViewModel : ViewModel() {
     fun refresh(){
         _task.value?.let {
             _dataLoading.value = true
-            TaskDataSource.refreshTask(it.id)
-            _dataLoading.value = false
+            viewModelScope.launch {
+                tasksRepository.refreshTask(it.id)
+                _dataLoading.value = false
+            }
         }
     }
 
     fun deleteTask(){
         task.value?.let {
             _dataLoading.value = true
-            TaskDataSource.deleteTask(it)
-            _deleteEvent.value = Event(Unit)
-            _dataLoading.value = false
+            viewModelScope.launch {
+                tasksRepository.deleteTask(it.id)
+                _dataLoading.value = false
+                _deleteEvent.value = Event(Unit)
+            }
         }
     }
 
     fun editTask(){
         _editTaskEvent.value = Event(Unit)
+    }
+
+    private fun computeResult(taskResult: Result<Task>): Task?{
+        return if(taskResult is Result.Success){
+            taskResult.data
+        }else{
+            showSnackBarMessage(R.string.error_loading_task)
+            null
+        }
     }
 
     private fun showSnackBarMessage(@StringRes message: Int) {

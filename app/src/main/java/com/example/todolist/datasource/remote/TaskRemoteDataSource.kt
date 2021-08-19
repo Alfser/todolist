@@ -45,9 +45,7 @@ object TaskRemoteDataSource : TaskDataSource {
     }
 
     private val observableTasks = MutableLiveData<Result<List<Task>>>()
-
-
-
+    
     private fun addTask(newTask: Task){
         tasksRemoteData[newTask.id] = newTask
     }
@@ -82,7 +80,7 @@ object TaskRemoteDataSource : TaskDataSource {
     }
 
     override suspend fun getTask(taskId: String): Result<Task> {
-        delay(NETWORK_LATENCY_IN_MILLIS)
+        delay(NETWORK_LATENCY_IN_MILLIS/2)
         tasksRemoteData[taskId]?.let {
             return Result.Success(it)
         }
@@ -95,7 +93,7 @@ object TaskRemoteDataSource : TaskDataSource {
     }
 
     override suspend fun saveTask(task: Task) {
-        delay(NETWORK_LATENCY_IN_MILLIS)
+        delay(NETWORK_LATENCY_IN_MILLIS/2)
         tasksRemoteData[task.id] = task
     }
 
@@ -125,7 +123,7 @@ object TaskRemoteDataSource : TaskDataSource {
             task.description,
             task.date,
             task.time,
-            true,
+            false,
             task.archived,
             task.favorite
         )
@@ -138,14 +136,17 @@ object TaskRemoteDataSource : TaskDataSource {
     }
 
     override suspend fun deleteAllTasks() {
+        delay(NETWORK_LATENCY_IN_MILLIS)
         tasksRemoteData.clear()
     }
 
     override suspend fun deleteTask(taskId: String) {
+        delay(NETWORK_LATENCY_IN_MILLIS/2)
         tasksRemoteData.remove(taskId)
     }
 
     override suspend fun deleteTasksCompleted() {
+        delay(NETWORK_LATENCY_IN_MILLIS)
         tasksRemoteData = tasksRemoteData.filterValues { task ->
             !task.completed
         } as LinkedHashMap<String, Task>

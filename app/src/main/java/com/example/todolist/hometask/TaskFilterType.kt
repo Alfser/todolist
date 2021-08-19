@@ -1,6 +1,6 @@
 package com.example.todolist.hometask
 
-enum class TaskFilterTypes {
+enum class TaskFilterType {
 
     ALL_TASKS,
 
