@@ -1,4 +1,4 @@
-# AppMovies
+# Todo List
 App para mastrar e criar tarefas.
 Este app foi desenvolvido como projeto final dentro do Bootcamp Mobile Santander 2021
 
