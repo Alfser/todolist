@@ -1,29 +1,32 @@
-# Bootcamp Android Developer
-Este repositório contém as atividades e projetos realizados no Bootcamp Android Developer promovido pelo Banco Inter e a DIO.
+# AppMovies
+App para mastrar e criar tarefas.
+Este app foi desenvolvido como projeto final dentro do Bootcamp Mobile Santander 2021
 
-## App de Listar filmes
-### [AppMovies](./AppMovies)
-<img src='./AppMovies/screenshots/screen_1.jpg' width=200 height=350/>
+## Principais recursos usados
 
-## App de Agenda
-### [AppAgenda](./AppAgenda)
-<img src='./AppAgenda/screenshots/screen_2.jpg' width=200 height=350/>
+ - Arquitetura MVVM
+ - RecycleView
+ - Room
+ - DataBinding
+ - LiveData
+ - ViewModel
+ - Navigation
 
-## App de Contatos
-### [ContactApp](./ContactApp)
-<img src='./ContactApp/screenshots/screen_1.jpg' width=200 height=350/>
+## Screenshots do Aplicativo.
 
-## App de Mapa
-### [GoogleMapsApp](./GoogleMapsApp)
-<img src='./GoogleMapsApp/screenshots/screen_1.jpg' width=200 height=350/>
+![screen1](./screenshots/screen_1.jpg)
 
-## App de Photo
-### [PhotoApp](./PhotoApp)
-<img src='./PhotoApp/screenshots/screen_1.jpg' width=200 height=350/>
+![screen2](./screenshots/screen_2.jpg)
 
-# Licença
+![screen3](./screenshots/screen_3.jpg)
 
-Copyright 2021 Janilson Serra.
+![screen4](./screenshots/screen_4.jpg)
+
+![screen5](./screenshots/screen_5.jpg)
+
+## Licença
+
+Copyright 2019-2021 Janilson Serra.
 
 Licensed to the Apache Software Foundation (ASF) under one or more contributor
 license agreements.  See the NOTICE file distributed with this work for
@@ -40,8 +43,7 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
 License for the specific language governing permissions and limitations under
 the License.
 
----
-# Contate me
+## Contate me
 
 - Email: j.janilson12@gmail.com
 - Linkedin : https://www.linkedin.com/in/janilsonalfser
