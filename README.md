@@ -14,15 +14,15 @@ Este app foi desenvolvido como projeto final dentro do Bootcamp Mobile Santander
 
 ## Screenshots do Aplicativo.
 
-![screen1](./screenshots/screen_1.jpg)
+![screen1](./screenshots/Screen_1.jpg)
 
-![screen2](./screenshots/screen_2.jpg)
+![screen2](./screenshots/Screen_2.jpg)
 
-![screen3](./screenshots/screen_3.jpg)
+![screen3](./screenshots/Screen_3.jpg)
 
-![screen4](./screenshots/screen_4.jpg)
+![screen4](./screenshots/Screen_4.jpg)
 
-![screen5](./screenshots/screen_5.jpg)
+![screen5](./screenshots/Screen_5.jpg)
 
 ## Licença
 
